@@ -1,0 +1,9 @@
+node_modules/
+settings.generated.json
+.claude/settings.local.json
+coverage/
+.DS_Store
+*.log
+.env
+.env.*
+!.env.example

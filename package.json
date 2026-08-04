@@ -1,0 +1,17 @@
+{
+  "name": "ai-builder-claude-toolkit",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Clean-room guardrails and verification patterns for Claude Code automation projects.",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "check": "node scripts/check-syntax.mjs && node --test",
+    "demo": "node scripts/demo.mjs",
+    "render-settings": "node scripts/render-settings.mjs",
+    "test": "node --test"
+  },
+  "license": "MIT"
+}

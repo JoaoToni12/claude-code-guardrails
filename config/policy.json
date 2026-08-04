@@ -1,0 +1,111 @@
+{
+  "version": 1,
+  "bash": {
+    "defaultDecision": "ask",
+    "rules": [
+      {
+        "id": "broad-recursive-delete",
+        "decision": "deny",
+        "pattern": "(^|[;&|]\\s*)(sudo\\s+)?rm(?=[^;&|]*\\s-[^\\s]*r)(?=[^;&|]*\\s-[^\\s]*f)\\s+[^;&|]*\\s(--\\s+)?(\\/|~|\\$HOME|\\$\\{HOME\\})(\\s|$)",
+        "reason": "Refusing a recursive deletion aimed at a broad filesystem root."
+      },
+      {
+        "id": "destructive-git-reset",
+        "decision": "deny",
+        "pattern": "(^|[;&|]\\s*)git\\s+reset\\s+--hard(\\s|$)",
+        "reason": "Hard resets can irreversibly discard uncommitted work."
+      },
+      {
+        "id": "destructive-git-clean",
+        "decision": "deny",
+        "pattern": "(^|[;&|]\\s*)git\\s+clean(?=[^;&|]*-[^\\s]*f)(?=[^;&|]*-[^\\s]*d)",
+        "reason": "Forced Git clean can irreversibly delete untracked work."
+      },
+      {
+        "id": "unleased-force-push",
+        "decision": "deny",
+        "pattern": "(^|[;&|]\\s*)git\\s+push\\b[^;&|]*(--force(\\s|$)|\\s-f(\\s|$))",
+        "reason": "Use --force-with-lease only after reviewing the exact remote ref."
+      },
+      {
+        "id": "raw-device-write",
+        "decision": "deny",
+        "pattern": "(^|[;&|]\\s*)(mkfs(\\.|\\s)|dd\\s+[^;&|]*of=\\/dev\\/)",
+        "reason": "Raw device writes are outside this toolkit's safe operating boundary."
+      },
+      {
+        "id": "remote-or-release-mutation",
+        "decision": "ask",
+        "pattern": "(^|[;&|]\\s*)(git\\s+push|gh\\s+repo\\s+(delete|create|edit)|npm\\s+publish|kubectl\\s+(apply|delete)|terraform\\s+(apply|destroy))\\b",
+        "reason": "This command can change remote, release, cloud, or deployment state."
+      },
+      {
+        "id": "recursive-delete",
+        "decision": "ask",
+        "pattern": "(^|[;&|]\\s*)(sudo\\s+)?rm\\s+-[^\\s]*r|(^|[;&|]\\s*)find\\b[^;&|]*\\s-delete\\b",
+        "reason": "Recursive deletion requires an explicit review of its target."
+      },
+      {
+        "id": "secret-environment-output",
+        "decision": "ask",
+        "pattern": "(^|[;&|]\\s*)(env|printenv|set)(\\s|[;&|]|$)",
+        "reason": "Environment output may disclose credentials or private configuration."
+      },
+      {
+        "id": "safe-working-directory",
+        "decision": "allow",
+        "pattern": "^pwd$",
+        "reason": "Reports only the current working directory."
+      },
+      {
+        "id": "safe-git-status",
+        "decision": "allow",
+        "pattern": "^git\\s+status(?:\\s+(?:--short|--branch|--porcelain(?:=v1|=v2)?))*$",
+        "reason": "Matched the restricted Git status form."
+      },
+      {
+        "id": "safe-git-diff-summary",
+        "decision": "allow",
+        "pattern": "^git\\s+diff(?:\\s+(?:--cached|--staged|--stat|--name-only|--name-status|--check))*$",
+        "reason": "Matched a restricted Git diff summary form."
+      }
+    ]
+  },
+  "write": {
+    "allowBasenames": [".env.example"],
+    "denyBasenames": [
+      ".env",
+      "credentials",
+      "credentials.json",
+      "credentials.yaml",
+      "credentials.yml",
+      "id_dsa",
+      "id_ecdsa",
+      "id_ed25519",
+      "id_rsa",
+      ".git-credentials",
+      ".netrc",
+      ".npmrc",
+      ".pypirc",
+      "secrets.json",
+      "service-account.json",
+      "token.json",
+      "tokens.json"
+    ],
+    "denyExtensions": [".key", ".p12", ".pem"],
+    "denyPaths": [
+      ".aws/credentials",
+      ".config/gcloud/application_default_credentials.json",
+      ".docker/config.json"
+    ],
+    "denyPrefixes": [".env."],
+    "reviewPrefixes": [
+      ".claude/",
+      ".github/workflows/",
+      "deploy/",
+      "infra/",
+      "migrations/"
+    ],
+    "reviewBasenames": ["AGENTS.md", "Dockerfile"]
+  }
+}
