@@ -1,6 +1,8 @@
-# ALL-ABT-CLAUDE — Deterministic Claude Code Guardrails
+# Claude Code Guardrails
 
-[![CI](https://github.com/JoaoToni12/ALL-ABT-CLAUDE/actions/workflows/ci.yml/badge.svg)](https://github.com/JoaoToni12/ALL-ABT-CLAUDE/actions/workflows/ci.yml)
+*Formerly `ALL-ABT-CLAUDE`; the old URL redirects here.*
+
+[![CI](https://github.com/JoaoToni12/claude-code-guardrails/actions/workflows/ci.yml/badge.svg)](https://github.com/JoaoToni12/claude-code-guardrails/actions/workflows/ci.yml)
 
 Deterministic, testable guardrails for using Claude Code on real engineering
 projects — **allow routine verification, ask before high-impact changes, and
@@ -51,8 +53,8 @@ Requires Node.js 22 or newer. No package dependency, API key, or Claude account 
 required to run the demo and tests.
 
 ```bash
-git clone https://github.com/JoaoToni12/ALL-ABT-CLAUDE.git
-cd ALL-ABT-CLAUDE
+git clone https://github.com/JoaoToni12/claude-code-guardrails.git
+cd claude-code-guardrails
 npm ci
 npm run demo
 npm run check
@@ -72,7 +74,7 @@ From the project that should use the guards, render an untracked local settings
 file:
 
 ```bash
-node /path/to/ALL-ABT-CLAUDE/scripts/render-settings.mjs --write
+node /path/to/claude-code-guardrails/scripts/render-settings.mjs --write
 ```
 
 Run the command without `--write` to print the rendered JSON for inspection or
